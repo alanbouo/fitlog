@@ -3,6 +3,7 @@
  * Displays the latest AI workout suggestion
  */
 import React from 'react'
+import { getExerciseImage } from '../assets/exercises'
 
 function AISuggestion({ suggestion }) {
   if (!suggestion) {
@@ -16,45 +17,36 @@ function AISuggestion({ suggestion }) {
     )
   }
 
+  const img = getExerciseImage(suggestion.exercise)
   return (
-    <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-lg shadow-md p-6 border border-indigo-200">
-      <div className="flex items-center mb-3">
-        <div className="flex-shrink-0">
-          <svg className="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-          </svg>
+    <div className="overflow-hidden rounded-xl shadow-md border border-indigo-100 bg-white">
+      <div className="relative h-40 w-full">
+        <img src={img} alt={suggestion.exercise} className="h-full w-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+        <div className="absolute bottom-3 left-4 text-white">
+          <div className="text-xs uppercase tracking-wider opacity-90">AI Suggestion</div>
+          <h3 className="text-2xl font-bold">{suggestion.exercise}</h3>
         </div>
-        <h2 className="text-xl font-semibold text-gray-900 ml-2">AI Suggestion</h2>
       </div>
-      
-      <div className="space-y-3">
-        <div>
-          <h3 className="text-2xl font-bold text-indigo-700 mb-1">
-            {suggestion.exercise}
-          </h3>
-          <p className="text-gray-700">{suggestion.reason}</p>
-        </div>
-        
+      <div className="p-5">
+        <p className="text-gray-700">{suggestion.reason}</p>
         {(suggestion.sets || suggestion.reps || suggestion.duration) && (
-          <div className="mt-4 pt-4 border-t border-indigo-200">
-            <p className="text-sm font-medium text-gray-700 mb-2">Suggested parameters:</p>
-            <div className="flex flex-wrap gap-3 text-sm">
-              {suggestion.sets && (
-                <span className="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full">
-                  {suggestion.sets} sets
-                </span>
-              )}
-              {suggestion.reps && (
-                <span className="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full">
-                  {suggestion.reps} reps
-                </span>
-              )}
-              {suggestion.duration && (
-                <span className="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full">
-                  {suggestion.duration}s
-                </span>
-              )}
-            </div>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {suggestion.sets && (
+              <span className="px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full text-sm">
+                {suggestion.sets} sets
+              </span>
+            )}
+            {suggestion.reps && (
+              <span className="px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full text-sm">
+                {suggestion.reps} reps
+              </span>
+            )}
+            {suggestion.duration && (
+              <span className="px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full text-sm">
+                {suggestion.duration}s
+              </span>
+            )}
           </div>
         )}
       </div>

@@ -4,6 +4,7 @@
  * Shows workout details: exercise, sets, reps, duration, timestamp
  */
 import React from 'react'
+import { getExerciseImage } from '../assets/exercises'
 
 function WorkoutList({ workouts, onMarkComplete, onDelete }) {
   const formatDate = (timestamp) => {
@@ -52,8 +53,12 @@ function WorkoutList({ workouts, onMarkComplete, onDelete }) {
             }`}
           >
             <div className="flex justify-between items-start">
-              <div className="flex-1">
-                <div className="flex items-center gap-2">
+              <div className="flex-1 flex gap-4">
+                <div className="w-20 h-16 flex-shrink-0 overflow-hidden rounded-md border">
+                  <img src={getExerciseImage(workout.exercise)} alt={workout.exercise} className="w-full h-full object-cover" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
                   <h3 className="text-lg font-semibold text-gray-900">
                     {workout.exercise}
                   </h3>
@@ -62,28 +67,29 @@ function WorkoutList({ workouts, onMarkComplete, onDelete }) {
                       ✓ Completed
                     </span>
                   )}
-                </div>
+                  </div>
 
-                <div className="mt-2 flex flex-wrap gap-4 text-sm text-gray-600">
-                  {workout.sets > 0 && (
-                    <span>
-                      <span className="font-medium">Sets:</span> {workout.sets}
+                  <div className="mt-2 flex flex-wrap gap-4 text-sm text-gray-600">
+                    {workout.sets > 0 && (
+                      <span>
+                        <span className="font-medium">Sets:</span> {workout.sets}
+                      </span>
+                    )}
+                    {workout.reps > 0 && (
+                      <span>
+                        <span className="font-medium">Reps:</span> {workout.reps}
+                      </span>
+                    )}
+                    {workout.duration > 0 && (
+                      <span>
+                        <span className="font-medium">Duration:</span>{' '}
+                        {workout.duration}s
+                      </span>
+                    )}
+                    <span className="text-gray-400">
+                      {formatDate(workout.timestamp)}
                     </span>
-                  )}
-                  {workout.reps > 0 && (
-                    <span>
-                      <span className="font-medium">Reps:</span> {workout.reps}
-                    </span>
-                  )}
-                  {workout.duration > 0 && (
-                    <span>
-                      <span className="font-medium">Duration:</span>{' '}
-                      {workout.duration}s
-                    </span>
-                  )}
-                  <span className="text-gray-400">
-                    {formatDate(workout.timestamp)}
-                  </span>
+                  </div>
                 </div>
               </div>
 
