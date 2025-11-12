@@ -27,7 +27,9 @@ def create_app():
     load_dotenv(os.path.join(os.path.dirname(basedir), '.env'))
     
     # Enable CORS for React frontend (allows cross-origin requests)
-    CORS(app, origins=["http://localhost:5173", "http://localhost:3000"])
+    cors_origins = os.environ.get('CORS_ORIGINS', 'http://localhost:5173,http://localhost:3000')
+    origins_list = [origin.strip() for origin in cors_origins.split(',')]
+    CORS(app, origins=origins_list)
     
     # Configuration
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
@@ -71,6 +73,8 @@ def create_app():
     
     return app
 
+# Create app instance for gunicorn
+app = create_app()
+
 if __name__ == '__main__':
-    app = create_app()
     app.run(debug=True, host='0.0.0.0', port=5000)
